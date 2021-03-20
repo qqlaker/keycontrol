@@ -23,8 +23,6 @@ def main():
         if len(list) < 2 or len(list) > 2:
             pass
         elif list[0] == 'press':
-            print(list[1])
-            print(type(list[1]))
             try:
                 keyboard.press(list[1])
                 print('pressed')
