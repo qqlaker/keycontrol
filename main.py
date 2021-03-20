@@ -1,52 +1,39 @@
-import time
+"""---Overlord---"""
+
 import keyboard
-import threading
-import sys
-import datetime
 import zmq
 
 def main():
+
+# Connection to local server
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
     socket.setsockopt_string(zmq.SUBSCRIBE, "")
-    print("Connecting to: ", "tcp://localhost:1337")
-    socket.connect("tcp://localhost:1337")
-
-    while True:
-        msg = socket.recv_pyobj()
-        print("%s: %s" % (msg[1], msg[0]), datetime.datetime.now())
-
-
-if __name__ == '__main__':
-    import sys
-    main()
-
-"""def connect():
-    global socket
-    context = zmq.Context()
-    socket = context.socket(zmq.REP)
     try:
-        socket.bind("tcp://*:1337")
-        print('Server started at: ', datetime.datetime.now())
+        socket.connect("tcp://localhost:1337") # instead of '1337' you can put any port
+        print('Connected to tcp://localhost:1337')
     except:
-        print('Error')
+        print('Connection failed')
 
-def main():
-    b = True
-    key = ''
-    msg = ''
+# Requests handler
     while True:
-        msg = socket.recv_pyobj()
-        print("%s: %s" % (msg[1], msg[0]))
-    while True:
-        key = socket.recv()
-        key = key.decode('utf-8')
-        print("key:", key, "pressed at:", datetime.datetime.now())
-        socket.send(b'Answ')
+        msg = socket.recv_string() # take last message from server
+        list = msg.split(' ')
+        if len(list) < 2 or len(list) > 2:
+            pass
+        elif list[0] == 'press':
+            try:
+                keyboard.press(list[1])
+            except:
+                print('Unexpected button')
+        elif list[0] == 'release':
+            try:
+                keyboard.release(list[1])
+            except:
+                print('Key', '[' + list[1] + ']', 'was not pressed')
+
 
 if __name__ == '__main__':
-    connect()
-    main()"""
-
+    main()
 
 

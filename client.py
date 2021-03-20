@@ -1,38 +1,24 @@
+"""---Имитация клиента---"""
+
 import zmq
-import time
 import datetime
 
-def main(who):
-
+def main():
+# Connection to local server
     ctx = zmq.Context()
     socket = ctx.socket(zmq.PUB)
-    socket.bind("tcp://*:1337")
+    try:
+        socket.bind("tcp://*:1337") # instead of '1337' you can put any port
+        print('Connected to tcp://*:1337')
+    except:
+        print('Connection failed')
 
+# Button transmitter
     while True:
-        msg = input("%s> " % who)
-        socket.send_pyobj((msg, who))
-        print(datetime.datetime.now())
+        msg = str(input('input button: '))
+        socket.send_string(msg) # this string send msg object on server
+        print('Message sent at:', datetime.datetime.now())
+
 
 if __name__ == '__main__':
-    import sys
-    ad = 'tcp://localhost:1337'
-    who = 'Michael'
-    main(who)
-
-"""key = ''
-message = ''
-who = 'Michael'
-
-time.sleep(1)
-print('Connecting to server')
-context = zmq.Context()
-socket = context.socket(zmq.REQ)
-try:
-    socket.connect('tcp://localhost:1337')
-    print('Connected at:', datetime.datetime.now())
-except:
-    print('Error')
-
-while True:
-    msg = str(input('%s> ' % who))
-    socket.send_pyobj((msg, who))"""
+    main()
