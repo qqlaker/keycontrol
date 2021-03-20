@@ -15,7 +15,7 @@ def main():
 
 # Button transmitter
     while True:
-        msg = str(input('input button: '))
+        msg = str(input('input command: '))
         socket.send_string(msg) # this string send msg object on server
         print('Message sent at:', datetime.datetime.now())
 

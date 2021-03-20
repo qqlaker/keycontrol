@@ -17,18 +17,23 @@ def main():
 
 # Requests handler
     while True:
-        msg = socket.recv_string() # take last message from server
+        print('start')
+        msg = socket.recv_string() # listen last message from server
         list = msg.split(' ')
         if len(list) < 2 or len(list) > 2:
             pass
         elif list[0] == 'press':
+            print(list[1])
+            print(type(list[1]))
             try:
                 keyboard.press(list[1])
+                print('pressed')
             except:
                 print('Unexpected button')
         elif list[0] == 'release':
             try:
                 keyboard.release(list[1])
+                print('released')
             except:
                 print('Key', '[' + list[1] + ']', 'was not pressed')
 
