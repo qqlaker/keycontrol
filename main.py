@@ -4,8 +4,14 @@ import keyboard
 import zmq
 
 def main():
+    context = zmq.Context()
+    consumer_receiver = context.socket(zmq.PULL)
+    consumer_receiver.connect('tcp://127.0.0.1:5557')
+    while True:
+        work = consumer_receiver.recv_pyobj()
+        print(work[0], work[1])
 
-# Connection to local server
+""" Connection to local server
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
     socket.setsockopt_string(zmq.SUBSCRIBE, "")
@@ -17,23 +23,24 @@ def main():
 
 # Requests handler
     while True:
-        print('start')
-        msg = socket.recv_string() # listen last message from server
-        list = msg.split(' ')
-        if len(list) < 2 or len(list) > 2:
+        msg = socket.recv_pyobj() # listen last message from server
+        print(msg)
+        if len(msg) < 2 or len(msg) > 2:
             pass
-        elif list[0] == 'press':
+        elif msg[0] == 'press':
             try:
-                keyboard.press(list[1])
+                keyboard.press(msg[1])
                 print('pressed')
             except:
                 print('Unexpected button')
-        elif list[0] == 'release':
+        elif msg[0] == 'release':
             try:
-                keyboard.release(list[1])
+                keyboard.release(msg[1])
                 print('released')
             except:
-                print('Key', '[' + list[1] + ']', 'was not pressed')
+                print('Key', '[' + msg[1] + ']', 'was not pressed')
+        else:
+            print(msg[1])"""
 
 
 if __name__ == '__main__':
