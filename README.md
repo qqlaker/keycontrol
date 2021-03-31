@@ -1,9 +1,9 @@
 # Keycontrol by LaKeR.
-
-> Script developed for linux. Tested on ubuntu, but will work well on other.  
-> On windows button will press single time instead of repeat.  
-> Therefore you do not need release command on windows.
-
+***
+Script developed for linux. Tested on ubuntu, but will work well on other.  
+On windows button will press single time instead of repeat.  
+Therefore you do not need 'release' command on windows.
+***
 
 1. Run main.py
 2. Run client.py
